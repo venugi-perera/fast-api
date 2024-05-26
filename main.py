@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 # from fastapi.middleware.cors import CORSMiddleware
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
 # import pickle
 # import os
 # from pydantic import BaseModel
