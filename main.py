@@ -24,12 +24,12 @@ with open(os.path.join(model_path, 'model.pkl'), 'rb') as f:
 def read_root():
     return {"Hello": "World"}
 
-@app.post('/predict')
-async def predict_calories(item: PredictCaloriesItem):
-    df = pd.DataFrame([item.dict()])
-    preds = model.predict(df)
-    rounded_preds = np.round(preds)
-    return {'prediction': int(rounded_preds)}
+# @app.post('/predict')
+# async def predict_calories(item: PredictCaloriesItem):
+#     df = pd.DataFrame([item.dict()])
+#     preds = model.predict(df)
+#     rounded_preds = np.round(preds)
+#     return {'prediction': int(rounded_preds)}
 
 # origins = [
 #     "http://localhost:3000",
