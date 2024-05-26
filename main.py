@@ -1,52 +1,48 @@
 from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-# import pandas as pd
-# import numpy as np
-# import pickle
-# import os 
-# from pydantic import BaseModel
-
-# from routes.route import router
+from fastapi.middleware.cors import CORSMiddleware
+import pandas as pd
+import numpy as np
+import pickle
+import os
+from pydantic import BaseModel
 
 app = FastAPI()
 
-# model_path = 'model'
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust as needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# class PredictCaloriesItem():
-#     RPC_RATE: int 
-#     KEPT_RATE: int
-#     MONTH_END_DPD: int
+model_path = 'model'
+model_file = os.path.join(model_path, 'model.pkl')
 
-# with open(os.path.join(model_path, 'model.pkl'), 'rb') as f:
-#     model = pickle.load(f)
+if not os.path.exists(model_file):
+    raise FileNotFoundError(f"Model file not found at {model_file}")
+
+with open(model_file, 'rb') as f:
+    model = pickle.load(f)
+
+class PredictCaloriesItem(BaseModel):
+    RPC_RATE: int 
+    KEPT_RATE: int
+    MONTH_END_DPD: int
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-# @app.post('/predict')
-# async def predict_calories(item: PredictCaloriesItem):
-#     df = pd.DataFrame([item.dict()])
-#     preds = model.predict(df)
-#     rounded_preds = np.round(preds)
-#     return {'prediction': int(rounded_preds)}
-
-# origins = [
-#     "http://localhost:3000",
-#     "http://localhost:8000",
-#     "https://vertexfinance.vercel.app",
-#     "https://webrouter.vercel.app"
-# ]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins= ["*"],
-#     allow_credentials=True,
-#     allow_methods=["GET", "POST", "PUT", "DELETE"],
-#     allow_headers=["*"],
-# )
-
-# app.include_router(router)
+@app.post('/predict')
+async def predict_calories(item: PredictCaloriesItem):
+    try:
+        df = pd.DataFrame([item.dict()])
+        preds = model.predict(df)
+        rounded_preds = np.round(preds)
+        return {'prediction': int(rounded_preds[0])}
+    except Exception as e:
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn
