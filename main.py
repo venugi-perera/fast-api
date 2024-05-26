@@ -10,15 +10,15 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-model_path = 'model'
+# model_path = 'model'
 
-class PredictCaloriesItem(BaseModel):
-    RPC_RATE: int 
-    KEPT_RATE: int
-    MONTH_END_DPD: int
+# class PredictCaloriesItem(BaseModel):
+#     RPC_RATE: int 
+#     KEPT_RATE: int
+#     MONTH_END_DPD: int
 
-with open(os.path.join(model_path, 'model.pkl'), 'rb') as f:
-    model = pickle.load(f)
+# with open(os.path.join(model_path, 'model.pkl'), 'rb') as f:
+#     model = pickle.load(f)
 
 @app.get("/")
 def read_root():
