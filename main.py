@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
 import pickle
 import os
 from pydantic import BaseModel
@@ -40,19 +40,22 @@ class PredictCaloriesItem(BaseModel):
 def read_root():
     return {"Hello": "World"}
 
-@app.post('/predict')
 async def predict_calories(item: PredictCaloriesItem):
     try:
-        df = pd.DataFrame([item.dict()])
-        logger.info(f"Input data: {df}")
-        preds = model.predict(df)
-        rounded_preds = np.round(preds)
+        # Convert the input data to a dictionary
+        input_data = item.dict()
+        logger.info(f"Input data: {input_data}")
+        
+        # Make the prediction
+        preds = model.predict([input_data])  # Assuming model.predict accepts a list of dictionaries
+        rounded_preds = round(preds[0])
         logger.info(f"Prediction: {rounded_preds}")
-        return {'prediction': int(rounded_preds[0])}
+        
+        return {'prediction': rounded_preds}
     except Exception as e:
         logger.error(f"Prediction error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
-
+    
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
