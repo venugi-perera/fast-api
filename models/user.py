@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class Todo(BaseModel):
+class Todo():
     REC_ID: str
 YEAR: int
 MONTH: str

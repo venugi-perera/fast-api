@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class Todo(BaseModel):
+class Todo():
     RPC_RATE: int
     KEPT_RATE:int
     NRPC_RATE:int

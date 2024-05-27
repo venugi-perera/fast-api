@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
+# from pydantic import BaseModel
 import pickle
 import os 
 import pandas as pd

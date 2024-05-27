@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # import numpy as np
 import pickle
 import os
-from pydantic import BaseModel
+# from pydantic import BaseModel
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -31,7 +31,7 @@ with open(model_file, 'rb') as f:
     model = pickle.load(f)
     logger.info("Model loaded successfully")
 
-class PredictCaloriesItem(BaseModel):
+class PredictCaloriesItem():
     RPC_RATE: int 
     KEPT_RATE: int
     MONTH_END_DPD: int
